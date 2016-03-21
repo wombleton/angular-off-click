@@ -10,8 +10,9 @@ angular.module('offClick', [])
     document.addEventListener("touchend", offClickEventHandler, true);
     document.addEventListener('click', offClickEventHandler, true);
 
-    function targetInFilter(target, elms) {
-        if (!target || !elms) return false;
+    function targetInFilter(target, selector) {
+        if (!target || !selector) return false;
+        var elms = document.querySelectorAll(selector);
         var elmsLen = elms.length;
         for (var i = 0; i < elmsLen; ++i) {
             var currentElem = elms[i];
@@ -70,7 +71,7 @@ angular.module('offClick', [])
                 var offClickFilter;
                 var removeWatcher;
 
-                offClickFilter = document.querySelectorAll(scope.$eval(attr.offClickFilter));
+                offClickFilter = scope.$eval(attr.offClickFilter);
 
                 if (attr.offClickIf) {
                     removeWatcher = $rootScope.$watch(function () {
@@ -87,7 +88,7 @@ angular.module('offClick', [])
                 }
 
                 attr.$observe('offClickFilter', function (value) {
-                    offClickFilter = document.querySelectorAll(scope.$eval(value));
+                    offClickFilter = scope.$eval(value);
                 });
 
                 scope.$on('$destroy', function () {
